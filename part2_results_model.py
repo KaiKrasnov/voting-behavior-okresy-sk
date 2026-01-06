@@ -31,14 +31,28 @@ class Results:
 
     def prepare_edata(self) -> pd.DataFrame:
         edata: pd.DataFrame = pd.read_sql_query(
-            "SELECT * FROM edata_okresy;",
-            self.conn
+            "SELECT * FROM edata_okresy;", self.conn
         )
         edata["Názov okresu"] = edata["Územná jednotka"].str[6:]
         edata = edata.sort_values(by="Názov okresu")
         edata = edata.set_index("Názov okresu")
-        edata = edata.sort_index(axis=1)
         edata = edata.drop(columns=["Kód", "Územná jednotka"])
+        edata = edata.rename(
+            columns={
+                "nezistené (abs.)": "nezistená štátna príslušnosť (abs.)",
+                "nezistené (%)": "nezistená štátna príslušnosť (%)",
+                "np3110rr_value": "priemerny plat",
+                "iná (abs.)": "iný pracovný stav (abs.)",
+                "iná (%)": "iný pracovný stav (%)",
+                "nezistené (abs.).1": "nezistený pracovný stav (abs.)",
+                "nezistené (%).1": "nezistený pracovný stav (%)",
+                "iné (abs.)": "iný pracovný vzťah (abs.)",
+                "iné (%)": "iný pracovný vzťah (%)",
+                "nezistené (abs.).2": "nezistený pracovný vzťah (abs.)",
+                "nezistené (%).2": "nezistený pracovný vzťah (%)",
+            }
+        )
+        edata = edata.sort_index(axis=1)
         return edata
 
     def prepare_elections_results(self) -> pd.DataFrame:
@@ -57,10 +71,12 @@ class Results:
             WHERE v.`Názov okresu` <> 'Zahraničie';""",
             self.conn,
         )
-        elections_results = elections_results.sort_values(by=["Názov okresu", "Názov politického subjektu"])
+        elections_results = elections_results.sort_values(
+            by=["Názov okresu", "Názov politického subjektu"]
+        )
         elections_results = elections_results.set_index("Názov okresu")
         return elections_results
-    
+
     def prepare_data(self) -> tuple[pd.DataFrame, pd.Series, pd.Series]:
         edata = self.prepare_edata()
         elections_results = self.prepare_elections_results()
@@ -68,17 +84,29 @@ class Results:
         x: pd.DataFrame = edata.loc[elections_results.index]
         y: pd.Series = elections_results["Názov politického subjektu"]
         w: pd.Series = elections_results["Podiel"]
-        
+
         return x, y, w
 
+    @staticmethod
+    def logloss(t: list, p: list):
+        """
+        Vracia log-loss pre target `t` a predikciu `p`
+        """
+        return -np.sum([ti * np.log(pi) for ti, pi in zip(t, p)])
+
     def find_kfold_loss(self, x: pd.DataFrame, n_splits: int = 5) -> float:
-        model = Pipeline([
-            ("scaler", StandardScaler()),
-            ("logreg", LogisticRegression(
-                solver="lbfgs",
-                max_iter=500,
-            ))
-        ])
+        model = Pipeline(
+            [
+                ("scaler", StandardScaler()),
+                (
+                    "logreg",
+                    LogisticRegression(
+                        solver="lbfgs",
+                        max_iter=500,
+                    ),
+                ),
+            ]
+        )
 
         groups = x.index
 
@@ -103,58 +131,67 @@ class Results:
             num_parties = len(model.named_steps["logreg"].classes_)
 
             for i in range(len(x_test.index.unique())):
-                t = w_test[num_parties*i : num_parties*(i+1)].tolist()
+                t = w_test[num_parties * i : num_parties * (i + 1)].tolist()
                 p = y_pred[i]
-                s = -np.sum([ti * np.log(pi+1e-12) for ti, pi in zip(t, p)])
+                s = self.logloss(t, p)
                 log_loss.append(s)
-            
+
             losses.append(np.mean(log_loss))
 
         return np.mean(losses)
 
-    def classification(self, criteria: pd.Series = None) -> tuple[Pipeline, pd.DataFrame, float]:
+    def classification(
+        self, criteria: pd.Series = None
+    ) -> tuple[Pipeline, pd.DataFrame]:
         """
         Pomocou multitriednej logistickej regresie a normalizacie vytvara model, ktory na vstupe
         ma parametry okresa (ako DataFrame rozmeru 1 x n_parametrov) a na vystupe je podiely hlasov
         politickych stran vnutri okresa s takymito parametrami.
         Ak `criteria` je None, trenuje model na vsetkych parametroch okresu.
         Inak trenuje iba na vybratych parametroch zo zoznamu `criteria`.
-        Vracia natrenovany model, coeficienty modelu (ako DataFrame, kde riadky su parametre
-        okresa, stlpce su politicke strany) a priemerny log-loss pre okresy.
+        Vracia natrenovany model a coeficienty modelu (ako DataFrame, kde riadky su parametre
+        okresa, stlpce su politicke strany).
         """
-        model = Pipeline([
-            ("scaler", StandardScaler()),
-            ("logreg", LogisticRegression(
-                solver="lbfgs",
-                max_iter=500,
-            ))
-        ])
+        model = Pipeline(
+            [
+                ("scaler", StandardScaler()),
+                (
+                    "logreg",
+                    LogisticRegression(
+                        solver="lbfgs",
+                        max_iter=500,
+                    ),
+                ),
+            ]
+        )
 
         if criteria is None:
             x = self.x
         else:
-            mask = (self.x.columns.isin(criteria))
+            mask = self.x.columns.isin(criteria)
             x = self.x.loc[:, mask]
-        
+
         model.fit(x, self.y, logreg__sample_weight=self.w)
 
         coefs = pd.DataFrame(
             model.named_steps["logreg"].coef_.T,
             index=x.columns,
-            columns=model.named_steps["logreg"].classes_
+            columns=model.named_steps["logreg"].classes_,
         )
-        kfold_loss = self.find_kfold_loss(x)
 
-        return model, coefs, kfold_loss
-    
-    def find_most_impactful(self, coefs: pd.DataFrame, top_k: int = 10) -> pd.Series:
+        return model, coefs
+
+    def find_most_impactful(
+        self, coefs: pd.DataFrame, top_k: int = 10, inverse: bool = False
+    ) -> pd.Series:
         """
         Pre DataFrame `coefs` formatu z metody Results.classification() hlada `top_k` parametrov,
         ktore maju najvacsi vplyv na model. Vplyv na model je priemer absolutnych hodnot
         koeficientov parametra pre rozne politicke strany.
+        Ak `inverse` je True, vracia `top_k` najneovplyvnujucich model parametrov.
         """
         importance = coefs.abs().mean(axis=1)
-        return importance.sort_values(ascending=False).head(top_k)
+        return importance.sort_values(ascending=inverse).head(top_k)
 
     def predict_one(self, model: BaseEstimator, data: list) -> pd.Series:
         """
@@ -166,23 +203,9 @@ class Results:
         return output
 
 
-db_path = "converted_data.db"
-results = Results(db_path)
-_, coefs, _ = results.classification()
-impactful = results.find_most_impactful(coefs)
-model, new_coefs, kfold_loss = results.classification(impactful.index)
+def main() -> None:
+    pass
 
-test_okres = "Bratislava I"
-index_mask = (results.x.index == test_okres)
-column_mask = (results.x.columns.isin(impactful.index))
 
-test_data = results.x.loc[index_mask, column_mask].iloc[0]
-
-pred = results.predict_one(model, test_data)
-was_true = pd.Series(results.w.loc[index_mask].values, index=results.y.loc[index_mask].values)
-comparison = pd.DataFrame({
-    "pred": pred,
-    "was true": was_true
-})
-
-print(comparison)
+if __name__ == "__main__":
+    main()
