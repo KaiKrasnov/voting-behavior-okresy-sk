@@ -89,7 +89,7 @@ modelovej špecifikácie.
 
 ---
 
-### Diskusia
+### Poznámky
 Medzi použitými premennými je prítomná silná multikolinearita, čo je pri
 socio-demografických údajoch bežné.
 Preto výsledky interpretujeme hlavne na základe ich stability naprieč
