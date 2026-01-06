@@ -102,7 +102,7 @@ def rename_and_engineer(df: pd.DataFrame) -> pd.DataFrame:
     })
 
     df["log_population"] = np.log(df["population"])
-    df["unemployment_sq"] = df["unemployment"] ** 2
+    df["unemployment_sq"] = df["unemployment"] ** 2 # <- as in most cases unemplayment influence more with high percentes and less with smaller I decided to check unlinear dependence
 
     return df
 
@@ -213,4 +213,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
