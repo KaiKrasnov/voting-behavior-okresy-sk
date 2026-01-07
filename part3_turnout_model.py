@@ -169,7 +169,7 @@ def run_random_forest(X: pd.DataFrame, y: pd.Series):
     # check for a result stability
     rf = RandomForestRegressor(
         n_estimators=500,
-        random_state=42
+        random_state=22
     )
 
     rf.fit(X, y)
@@ -213,5 +213,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
 
 
