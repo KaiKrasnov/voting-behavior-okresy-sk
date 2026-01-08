@@ -424,17 +424,15 @@ Tieto premenné mali najvyšší podiel variability vysvetlenej rozdielmi medzi 
 
 ### Interpretácia zhlukov pomocou volebných dát
 
-Ku každému okresu sme dodatočne priradili reálne výsledky parlamentných volieb a podiel volebnej účasti, aby sme sa mohli pozrieť na vytvorené zhluky z inej perspektívy. Jednotlivé zhluky sa líšia aj z hľadiska volebného správania, čo naznačuje silnú prepojenosť medzi socio-ekonomickými charakteristikami okresov a politickými preferenciami obyvateľov.  
+Ku každému okresu sme dodatočne priradili reálne výsledky parlamentných volieb a údaje o volebnej účasti, aby sme mohli vytvorené zhluky interpretovať aj z politického hľadiska. Jednotlivé zhluky sa líšia nielen svojimi socio-ekonomickými charakteristikami, ale aj volebným správaním, čo naznačuje súvislosť medzi socio-ekonomickou štruktúrou okresov a politickými preferenciami obyvateľov.  
 
-**Mestský zhluk** (Bratislava a Košice) mal vyššiu volebnú účasť oproti ostaatným zhlukom, výrazne vyšší podiel hlasov pre strany **Koalícia Progresívne Slovensko a SPOLU - občianska demokracia** a **Sloboda a Solidarita**. V okresoch tohto zhluku bola zároveň nižšia podpora pre strany **SMER - sociálna demokracia** a **Slovenskú národnú stranu**. Tieto okresy sa vyznačovali vysokým podielom vysokoškolsky vzdelaných obyvateľov, vyššími príjmami a vysokou mierou urbanizácie. 
+**Mestský zhluk** (Bratislava a Košice) mal najvyššiu volebnú účasť (70,1 %) a zároveň výrazne nižšiu podporu strán **SMER - sociálna demokracia (12,3 %)** a **Kotlebovci - Ľudová strana Naše Slovensko (4,5 %)**. Naopak, v tomto zhluku bola výrazne vyššia podpora strán ako **ZA ĽUDÍ (10,2 %)**. Tieto okresy sa vyznačovali vysokým podielom vysokoškolsky vzdelaných obyvateľov, vyššími príjmami a vysokou mierou urbanizácie. 
 
-To naznačuje, že vzdelanie, príjem a mestské prostredie môžu súvisieť s podporou liberálnejších politických strán, čo je v súlade aj s výsledkami modelov ďalších členov tímu.
+Tieto zistenia naznačujú, že vyššia úroveň vzdelania, vyšší príjem a mestské prostredie môžu súvisieť s nižšou podporou krajne pravicových politických strán a s vyššou podporou liberálnejších subjektov.
 
-V **zhluku s vyššou mierou nezamestnanosti a nižšímmi mzdami** sme pozorovali vyšší podiel hlasov pre strany **SMER - sociálna demokracia** a **HLAS ĽUDU**, nižší podiel hlasov pre liberálne strany a nižšiu volebnú účasť. Okresy sa vyznačovali aj nižším podielom vysokoškolsky vzdelaných ľudí. 
+V **zhluku s vyššou mierou nezamestnanosti a nižšímmi mzdami** sme pozorovali najnižšiu volebnú účasť (59,5 %) a zároveň najvyššiu podporu strán **SMER - sociálna demokracia (21,8 %)**, **Kresťanskodemokratické hnutie (6,9 %)** a **Kotlebovci - Ľudová strana Naše Slovensko (9,9 %)**. Okresy sa vyznačovali aj nižšou úrovňou vzdelania a vyššou mierou socio-ekonomickej neistoty, čo sa odráža aj v štruktúre politických preferencií obyvateľstva. Výsledky naznačujú, že socio-ekonomická neistota a nižšia úroveň vzdelania môžu súvisieť s vyššou podporou sociálne orientovaných a protestných politických strán.
 
-Výsledky naznačujú, že socio-ekonomická neistota a nižšia úroveň vzdelania môžu súvisieť s podporou sociálne orientovaných strán.
-
-V **najväčšom zhluku okresov** sú politické preferencie vyváženejšie a podiely hlasov jednotlivých strán sú bližšie k celoslovenskému priemeru. Vidíme, že veľká časť Slovenska má zmiešané socio-ekonomické charakteristiky, čo sa odráža aj v menej vyhranených volebných preferenciách. 
+V **najväčšom zhluku okresov** sú politické preferencie vyváženejšie a podiely hlasov jednotlivých strán sú bližšie k celoslovenskému priemeru. Tento zhluk reprezentuje okresy so zmiešanými socio-ekonomickými charakteristikami, čo sa prejavuje aj v menej vyhranených volebných preferenciách.
 
 ---
 
