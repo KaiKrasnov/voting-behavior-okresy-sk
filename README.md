@@ -12,7 +12,7 @@ parametrov okresu).
 
 ### Premenné
 
-**Závisle premenné **
+**Závisle premenné**
 - podiely hlasov pre politické strany a koalície.
 
 **Vysvetľujúce premenné**
@@ -351,3 +351,36 @@ Ekonomické ukazovatele majú skôr doplnkový význam.
 
 Táto časť projektu ukazuje, že aj jednoduché regresné modely môžu poskytnúť
 zmysluplný pohľad na regionálne rozdiely vo volebnej účasti.
+
+## Part 4 — Clustering slovenských okresov podľa socio-ekonomických alebo demografických charakteristík
+
+### Cieľ analýzy
+Rozhodli sme sa preskúmať, či je možné rozdeliť okresy Slovenska do zmyslupných skupín - zhlukov - iba na základe ich demografických alebo socio-ekonomických charakteristík a následne tieto zhluky interpretovať pomocou dát z volieb. 
+
+Venovali sme sa výskumným otázkam:
+- Existujú zhluky okresov Slovenska na základe demografických a socio-ekonomických ukazovateľov?
+- Aký je vhodný počet zhlukov pre metódu K-means pri týchto dátach?
+- Ktoré charakteristiky okresov najviac ovplyvňujú vznik jednotlivých zhlukov?
+- Ako sa vytvorené zhluky líšia z hľadiska volebnej účasti a volebných preferencií?
+
+Následne sme tieto zistenia porovnali s výsledkami modelov, ktoré vytvorili spolužiaci z tímu.
+
+---
+### Premenné 
+**Premenné použité na zhlukovanie**
+- demografia: podiel obyvateľov vo veku 0-14 rokov; podiel obyvateľov vo veku 65+ rokov; podiel žien;
+- trh práce: miera evidovanej nezamestnanosti; kvadratický člen miery nezamestnanosti;
+- urbanizáicia a veľkosť okresu: podiel mestského obyvateľstva; logaritmus počtu obyvateľov okresu
+- vzdelanie: podiel vysokoškolsky vzdelaných osôb; podiel osôb bez základného vzdelania
+- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov
+
+_Premenné boli pred zhlukovanm štandardizované (z-skóre)._
+
+**Premenné použité iba na interpretáciu zhlukov**
+- volebná účasť
+- podiely hlasov pre politické strany
+
+_Tieto premenné neboli vstupom do K-means algoritmu._
+
+
+
