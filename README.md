@@ -1,3 +1,60 @@
+Zadanie projektu bolo: „Pokúste sa čo najlepšie modelovať výsledky parlamentných volieb v jednotlivých okresoch SR v závislosti od rôznych charakteristík týchto okresov (nezamestnanosť, priemerný plat, vekové zloženie...). Výsledné modely by mali byť interpretovateľné, čiže z modelu by sa mal dať vyčítať pozorovaný vzťah medzi charakteristikami okresov a výsledkami volieb.“
+
+Cieľom tohto projektu je analyzovať a modelovať výsledky parlamentných volieb v jednotlivých okresoch Slovenskej republiky v závislosti od rôznych socioekonomických a demografických charakteristík týchto okresov, ako sú nezamestnanosť, priemerný plat, vekové zloženie obyvateľstva alebo ekonomická aktivita. Dôraz je kladený na použitie interpretovateľných modelov, z ktorých je možné priamo vyčítať vzťahy medzi vstupnými premennými a volebnými výsledkami.
+
+
+## Part 1 - Zber dát a vytvorení databázy 
+
+### Použité zdroje dát
+- Štatistický úrad SR – DataCube 
+- https://datacube.statistics.sk
+- Štatistický úrad SR – voľby 
+- https://volby.statistics.sk
+- Sčítanie obyvateľov – Štruktúra obyvateľstva podľa odvetvia ekonomickej činnosti
+- https://www.scitanie.sk
+- ÚPSVaR – mesačné štatistiky nezamestnanosti 
+- https://www.upsvr.gov.sk
+
+### Prehľad vstupných súborov a dátových vrstiev
+Dáta boli spracované z viacerých Excel/CSV súborov, ktoré reprezentovali tematické vrstvy. Najdôležitejšie vrstvy pre neskoršie modelovanie na úrovni okresov boli:
+-	Volebné výsledky a účasť: počet hlasov, podiel hlasov, účasť, počet okrskov a pod.
+-	Ekonomické a demografické charakteristiky území: pohlavie, vekové skupiny, vzdelanie, aktivita atď.
+-	Nezamestnanosť : počet uchádzačov, miera evidovanej nezamestnanosti (%)
+-	Priemerná mzda : priemerná mzda/indikátor podľa územnej jednotky
+
+### Metodika spracovania dát
+Príprava dát bola realizovaná pomocou Python skriptov:
+
+1. **Načítanie dát**  
+   Všetky relevantné súbory boli načítané z jedného priečinka.
+
+2. **Čistenie dát**  
+   Odstránenie prázdnych stĺpcov, technických stĺpcov typu `Unnamed`, normalizácia textu.
+
+3. **Deduplikácia**
+   - záznamy s rovnakým kódom boli zlúčené do jedného riadku,
+   - pre každý stĺpec bola použitá prvá nenulová hodnota.
+
+4. **Integrácia dát**
+   - volebných údajov s demografickými a ekonomickými dátami,
+   - doplnenie ukazovateľov nezamestnanosti a priemernej mzdy.
+
+5. **Kontrola kvality**
+   - výpočet match-rate pre obce a okresy,
+   - identifikácia nezlúčených jednotiek.
+
+
+### Výsledky prípravy dát
+- Obce: match-rate ≈ 99,97 %  
+- Okresy: match-rate ≈ 98,8 %  
+
+Nezlúčené záznamy predstavujú najmä kategóriu Zahraniči, ktorá nemá ekvivalent v demografických dátach.
+
+### Výstup
+Výsledkom je SQLite databáza, ktorá obsahuje viacero tabuliek (volebných, demografických a ekonomických). 
+
+Táto databáza tvorí základ pre ďalšie fázy projektu, ktorou je samotné modelovanie a interpretácia volebných výsledkov.
+
 ## Part 2 — Results model (predikcia podielu hlasov vo voľbách)
 
 ### Cieľ analýzy
