@@ -355,24 +355,27 @@ zmysluplný pohľad na regionálne rozdiely vo volebnej účasti.
 ## Part 4 — Clustering slovenských okresov podľa socio-ekonomických alebo demografických charakteristík
 
 ### Cieľ analýzy
-Rozhodli sme sa preskúmať, či je možné rozdeliť okresy Slovenska do zmyslupných skupín - zhlukov - iba na základe ich demografických alebo socio-ekonomických charakteristík a následne tieto zhluky interpretovať pomocou dát z volieb. 
+
+V tejto časti sme chceli preskúmať, či je možné rozdeliť okresy Slovenska do zmyslupných skupín, zhlukov,iba na základe ich demografických alebo socio-ekonomických charakteristík a následne tieto zhluky interpretovať pomocou dát z parlamentých volieb. 
 
 Venovali sme sa výskumným otázkam:
-- Existujú zhluky okresov Slovenska na základe demografických a socio-ekonomických ukazovateľov?
+- Existujú prirodzené zhluky okresov Slovenska na základe demografických a socio-ekonomických ukazovateľov?
 - Aký je vhodný počet zhlukov pre metódu K-means pri týchto dátach?
-- Ktoré charakteristiky okresov najviac ovplyvňujú vznik jednotlivých zhlukov?
-- Ako sa vytvorené zhluky líšia z hľadiska volebnej účasti a volebných preferencií?
+- Ktoré charakteristiky okresov najviac prispievajú ku vzniku jednotlivých zhlukov?
+- Ako sa vytvorené zhluky líšia z hľadiska volebnej účasti a volebných preferencií politických strán?
 
-Následne sme tieto zistenia porovnali s výsledkami modelov, ktoré vytvorili spolužiaci z tímu.
+Následne sme tieto zistenia porovnali s výsledkami modelov, ktoré vytvorili ostatní členovia z tímu.
 
 ---
+
 ### Premenné 
+
 **Premenné použité na zhlukovanie**
 - demografia: podiel obyvateľov vo veku 0-14 rokov; podiel obyvateľov vo veku 65+ rokov; podiel žien;
 - trh práce: miera evidovanej nezamestnanosti; kvadratický člen miery nezamestnanosti;
 - urbanizáicia a veľkosť okresu: podiel mestského obyvateľstva; logaritmus počtu obyvateľov okresu
-- vzdelanie: podiel vysokoškolsky vzdelaných osôb; podiel osôb bez základného vzdelania
-- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov
+- vzdelanie: podiel vysokoškolsky vzdelaných osôb; podiel osôb bez základného vzdelania;
+- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov; podiel pracujúcich dôchodcov; 
 
 _Premenné boli pred zhlukovanm štandardizované (z-skóre)._
 
@@ -380,7 +383,51 @@ _Premenné boli pred zhlukovanm štandardizované (z-skóre)._
 - volebná účasť
 - podiely hlasov pre politické strany
 
-_Tieto premenné neboli vstupom do K-means algoritmu._
+_Tieto dáta neboli použité pri zhlukovaní, slúžili len na interpretáciu výsledných skupín._
 
+---
 
+### Metodika
 
+Na zhlukovanie sme použili algoritmus **K-means**. Počet zhlukov bol vyberaný testovaním hodnôt k = 2 až 8, pričom sme použili silhouette score a elbow metódu založenú na hodnote inertia (SSE) a tieto obe kritériá identifikovali k = 3 ako najvhodnejší počet zhlukov.
+
+Na vizualizáciu výsledkov sme použili analýzu halvných kompotentov PCA, ktorú sme aplikovali na štandarzitované dáta. Prvé dva komponenty PC1 a PC2 určujú 64,48 % 
+rozptylu.
+
+Keďže vieme, že K-means nemá prirodzenú mieru významnosti premenných, použili sme podiel medzizhlukovej variability na celkovej variabilite (SSB/SST) ako proxy ukazovateľ.
+
+---
+
+### Výsledky
+Algoritmus K-means identifikoval tri zhluky okresov Slovenskej republiky, ktoré obsahovali rôzny počet okresov:
+0. zhluk: 48 okresov
+1. zhluk: 8 okresov
+2. zhluk: 23 okresov
+
+Najmenší zhluk tvorili mestské okresy Bratislavy a Košíc, ktoré sa výrazne odlišujú od zvyšku Slovenska najmä vyššou mierou urbanizácie, vyššími príjmami a vyšším podielom vysokoškolsky vzdelaných obyvateľov.
+
+Kvalita zhlukovania bola vyhodnotená pomocou silhouette score, ktoré nadobudlo hodnotu 0,338, čo indikuje stredne silnú, ale realistickú separáciu zhlukov. Algoritmus dosiahol konvergenciu už po 4 iteráciách, čo naznačuje stabilitu riešenia. Finálna hodnota inertia (SSE) = 513,0 potvrdzuje, že zvolený počet zhlukov predstavuje rozumný kompromis medzi kompaktnosťou zhlukov a ich interpretovateľnosťou.
+
+Na vizualizáciu výsledkov bola použitá PCA analýza, pričom prvé dve hlavné komponenty vysvetľujú 64,48 % celkovej variability dát, čo umožňuje zhluky prehľadne interpretovať v dvojrozmernom priestore.
+
+Ako najdôležitejšie premenné pre tvorbu zhlukov sa ukázali:
+
+- podiel vysokoškolsky vzdelaných obyvateľov,
+- miera nezamestnanosti,
+- urbanizácia,
+- priemerná mzda,
+- podiel osôb bez základného vzdelania.
+
+Tieto premenné mali najvyšší podiel variability vysvetlenej rozdielmi medzi zhlukmi (SSB/SST).
+
+---
+
+### Interpretácia zhlukov pomocou volebných dát
+
+Ku každému okresu sme dodatočne priradili reálne výsledky parlamentných volieb a podiel volebnej účasti, aby sme sa mohli pozrieť na vytvorené zhluky z inej perspektívy. Jednotlivé zhluky sa systematicky líšia aj z hľadiska volebného správania, čo naznačuje silnú prepojenosť medzi socio-ekonomickými charakteristikami okresov a politickými preferenciami obyvateľstva.  
+
+Mestský zhluk 0. (Bratislava a Košice) mal vyššiu volebnú účasť a vyšší podiel hlasov pre liberálnejšie politické strany.
+
+Naopak, zhluky s vyššou nezamestnanosťou a nižšími mzdami mali odlišnú štruktúru volebných preferencií a vyššiu podporu strán, ktoré sú v modeloch spolužiakov spájané so socio-ekonomickou neistotou.
+
+Tieto výsledky sú konzistentné s modelmi, ktoré vytvorili ostatní členovia tímu. Môžeme teda povedať, že socio-ekonomická štruktúra okresov je silne previazaná s volebným správaním.
