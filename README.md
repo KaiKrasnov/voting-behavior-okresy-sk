@@ -404,11 +404,13 @@ Algoritmus K-means identifikoval tri zhluky okresov Slovenskej republiky, ktoré
 1. zhluk: 8 okresov
 2. zhluk: 23 okresov
 
-Najmenší zhluk tvorili mestské okresy Bratislavy a Košíc, ktoré sa výrazne odlišujú od zvyšku Slovenska najmä vyššou mierou urbanizácie, vyššími príjmami a vyšším podielom vysokoškolsky vzdelaných obyvateľov.
+Najmenší zhluk tvorili mestské okresy Bratislavy a Košíc, ktoré sa výrazne odlišujú od zvyšku Slovenska najmä vyššou mierou urbanizácie, vyššími príjmami a vyšším podielom vysokoškolsky vzdelaných obyvateľov. 
 
-Kvalita zhlukovania bola vyhodnotená pomocou silhouette score, ktoré nadobudlo hodnotu 0,338, čo indikuje stredne silnú, ale realistickú separáciu zhlukov. Algoritmus dosiahol konvergenciu už po 4 iteráciách, čo naznačuje stabilitu riešenia. Finálna hodnota inertia (SSE) = 513,0 potvrdzuje, že zvolený počet zhlukov predstavuje rozumný kompromis medzi kompaktnosťou zhlukov a ich interpretovateľnosťou.
+Zhluk 0. obsahuje väčšinu slovenských okresov a možno ich nazvať "priemernými" okresmi. Zhluk 2. zahŕňa okresy s vyššou mierou nezamestnanosti, nižšími mzdami a nižším podielom vysokoškolského vzdelania.
 
-Na vizualizáciu výsledkov bola použitá PCA analýza, pričom prvé dve hlavné komponenty vysvetľujú 64,48 % celkovej variability dát, čo umožňuje zhluky prehľadne interpretovať v dvojrozmernom priestore.
+Kvalita zhlukovania bola vyhodnotená pomocou silhouette score, ktoré nadobudlo hodnotu 0,338, čo hovorí o stredne silnej separácii zhlukov. Algoritmus dosiahol konvergenciu už po 4 iteráciách, čo naznačuje stabilitu riešenia. Finálna hodnota inertia (SSE) = 513,0 potvrdzuje, že zvolený počet zhlukov predstavuje kompromis medzi jednoduchosťou a presnosťou.
+
+Na vizualizáciu výsledkov bola použitá PCA analýza, pričom prvé dva hlavné komponenty vysvetľujú 64,48 % celkovej variability dát, čo umožňuje zhluky prehľadne interpretovať v 2D priestore. Pôvodné dáta mali totiž viac dimenzií.
 
 Ako najdôležitejšie premenné pre tvorbu zhlukov sa ukázali:
 
