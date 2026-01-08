@@ -324,6 +324,24 @@ charakteristikami okresov a volebnou účasťou.
 - ekonomika: priemerná mzda,
 - sociálna štruktúra: podiel cudzincov.
 
+Niektoré skupiny premenných (napr. vzdelanie alebo
+vek) sú v dátach vyjadrené prostredníctvom podielov,
+ktoré v súčte tvoria 100 %. Zahrnutie všetkých kategórií
+by viedlo k perfektnej multikolinearite a
+neidentifikovateľnosti modelu. Z tohto dôvodu sme
+zvolili iba vybrané reprezentatívne kategórie a ostatné
+ponechali ako referenčné.
+
+Podobne pri vekovej štruktúre sme uprednostnili použitie
+podielu najmladšej a najstaršej populácie, ktoré lepšie
+zachytávajú demografické extrémy, zatiaľ čo stredná
+produktívna veková skupina slúži implicitne ako
+referenčná kategória.
+
+Kvadratický člen nezamestnanosti bol zahrnutý na testovanie
+možnej nelinearity vzťahu medzi nezamestnanosťou a volebnou
+účasťou. Vplyv sa však ukázal ako prevažne lineárny.
+
 ---
 
 ### Metódy
@@ -344,14 +362,57 @@ Plný OLS model dosahuje hodnotu \(R^2 = 0,82\) (upravené \(R^2 = 0,78\)),
 čo znamená, že vysvetľuje veľkú časť rozdielov vo volebnej účasti medzi okresmi.
 Model je ako celok štatisticky významný (F-test, \(p < 0,001\)).
 
+**Tabuľka 1: Faktory ovplyvňujúce volebnú účasť – zjednodušený OLS model**
+
+| Premenná | Koeficient | Std. chyba | p-hodnota |
+|---------|-----------:|-----------:|----------:|
+| Podiel mestského obyvateľstva (urban) | -0.169 | 0.029 | <0.001 |
+| Nezamestnanosť (unemployment) | -1.296 | 0.522 | 0.015 |
+| Nezamestnanosť² (unemployment_sq) | 0.032 | 0.024 | 0.189 |
+| Vysokoškolské vzdelanie (edu_uni) | +0.685 | 0.135 | <0.001 |
+| Bez vzdelania (edu_none) | -10.113 | 4.753 | 0.037 |
+| Priemerná mzda (avg_wage) | +0.004 | 0.004 | 0.292 |
+| Podiel cudzincov (foreigners) | -1.506 | 0.633 | 0.020 |
+| **Konštanta** | **68.878** | **4.994** | **<0.001** |
+|  |  |  |  |
+| **R² / Adj. R²** | **0.757 / 0.733** |  |  |
+| **Počet okresov** | **79** |  |  |
+
+**Tabuľka 2: Porovnanie modelov pre volebnú účasť**
+
+| Model | R² | Adj. R² |
+|------|----:|--------:|
+| Full OLS | 0.820 | 0.784 |
+| Restricted OLS | 0.757 | 0.733 |
+| Random Forest (in-sample) | 0.949 | – |
+
+
+**Tabuľka 3: Dôležitosť premenných podľa modelu Random Forest**
+
+| Premenná | Dôležitosť |
+|---------|-----------:|
+| Bez vzdelania (edu_none) | 0.238 |
+| Nezamestnanosť (unemployment) | 0.182 |
+| Nezamestnanosť² (unemployment_sq) | 0.166 |
+| Podiel cudzincov (foreigners) | 0.084 |
+| Vysokoškolské vzdelanie (edu_uni) | 0.067 |
+| Pracujúci dôchodcovia | 0.063 |
+| Podiel detí (0–14 rokov) | 0.062 |
+| Urbanizácia | 0.029 |
+| Priemerná mzda | 0.029 |
+| Podiel žien | 0.027 |
+| Podiel pracujúcich | 0.021 |
+| Log(populácie) | 0.016 |
+| Podiel 65+ | 0.016 |
+
 Z výsledkov vyplýva niekoľko hlavných zistení:
 
 - **Vzdelanie má silný vzťah k volebnej účasti.**  
   Podiel vysokoškolsky vzdelaných obyvateľov (`edu_uni`) má
   pozitívny a štatisticky významný vplyv na účasť
-  (koeficient približne \(+0,75\), \(p < 0,001\)).
+  (koeficient približne \(+0,685\), \(p < 0,001\)).
   Naopak, podiel osôb bez vzdelania (`edu_none`) má výrazný
-  negatívny vplyv (koeficient približne \(-10,8\), \(p ~ 0,02\)).
+  negatívny vplyv (koeficient približne \(-10,13\), \(p ~ 0,02\)).
   Aj keď ide o malý podiel populácie, táto premenná pravdepodobne
   zachytáva mieru sociálnej marginalizácie v okrese.
 
@@ -363,14 +424,14 @@ Z výsledkov vyplýva niekoľko hlavných zistení:
 
 - **Urbanizované okresy** vykazujú nižšiu volebnú účasť.
   Premenná `urban` má stabilne negatívny a vysoko významný efekt
-  (koeficient približne \(-0,14\), \(p < 0,001\)).
+  (koeficient približne \(-0,17\), \(p < 0,001\)).
 
 - **Podiel cudzincov** v okrese je spojený s nižšou účasťou
-  (koeficient približne \(-1,6\), \(p ~ 0,01\)).
+  (koeficient približne \(-1,5\), \(p ~ 0,01\)).
 
 - **Priemerná mzda** (`avg_wage`) nemá po zohľadnení ostatných premenných
   štatisticky významný samostatný vplyv na volebnú účasť
-  (\(p > 0,3\)).
+  (\(p > 0,2\)).
 
 Diagnostika multikolinearity (VIF) ukazuje vysoké hodnoty pre viaceré
 socio-demografické premenné, čo je pri tomto type dát očakávané.
@@ -378,7 +439,7 @@ Preto boli výsledky ďalej overené pomocou výberu premenných.
 
 Zjednodušený (restricted) OLS model, ktorý obsahuje najstabilnejšie
 premenné, dosahuje mierne nižšiu, ale stále vysokú vysvetľovaciu schopnosť
-(\(R^2 = 0,76\)).
+(\(R^2 = 0,757\)).
 Zachováva pritom rovnaké základné vzťahy:
 pozitívny vplyv vysokoškolského vzdelania a negatívny vplyv
 nezamestnanosti, podielu osôb bez vzdelania, urbanizácie a podielu cudzincov.
@@ -405,9 +466,6 @@ marginalizácie, ktorá súvisí s nižšou politickou participáciou.
 Výsledky naznačujú, že volebná účasť v okresoch SR je ovplyvnená najmä
 vzdelanostnou štruktúrou obyvateľstva a situáciou na trhu práce.
 Ekonomické ukazovatele majú skôr doplnkový význam.
-
-Táto časť projektu ukazuje, že aj jednoduché regresné modely môžu poskytnúť
-zmysluplný pohľad na regionálne rozdiely vo volebnej účasti.
 
 ## Part 4 — Clustering slovenských okresov podľa socio-ekonomických alebo demografických charakteristík
 
