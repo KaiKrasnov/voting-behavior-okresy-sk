@@ -504,7 +504,7 @@ _Tieto dáta neboli použité pri zhlukovaní, slúžili len na interpretáciu v
 
 ### Metodika
 
-Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií: silhouette score (images/kmeans_silhouette.png) a elbow metódy (images/kmeans_elbow-png), ktorá je založená na hodnote inertia (SSE v rámci zhlukov). Po výbere k sme zhluky vizualizovali pomocou PCA do 2D priestoru (images/pca_cluster.png).
+Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií: silhouette score ![Popis](images/kmeans_silhouette.png) a elbow metódy (images/kmeans_elbow-png), ktorá je založená na hodnote inertia (SSE v rámci zhlukov). Po výbere k sme zhluky vizualizovali pomocou PCA do 2D priestoru (images/pca_cluster.png).
 
 Ako jednoduchý “proxy” ukazovateľ dôležitosti znakov pre zhlukovanie sme spravili sekundárnu analýzu:
 
