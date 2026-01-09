@@ -467,6 +467,8 @@ Výsledky naznačujú, že volebná účasť v okresoch SR je ovplyvnená najmä
 vzdelanostnou štruktúrou obyvateľstva a situáciou na trhu práce.
 Ekonomické ukazovatele majú skôr doplnkový význam.
 
+------------
+
 ## Part 4 — Clustering slovenských okresov podľa socio-ekonomických alebo demografických charakteristík
 
 ### Cieľ analýzy
