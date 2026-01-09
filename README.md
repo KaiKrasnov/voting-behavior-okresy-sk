@@ -559,6 +559,8 @@ Tieto premenné vykazovali najväčší rozdiel medzi zhlukmi na štandardizovan
 
 Ku každému okresu sme dodatočne priradili reálne výsledky parlamentných volieb a údaje o volebnej účasti, aby sme mohli vytvorené zhluky interpretovať aj z politického hľadiska. Jednotlivé zhluky sa líšia nielen svojimi socio-ekonomickými charakteristikami, ale aj volebným správaním, čo naznačuje súvislosť medzi socio-ekonomickou štruktúrou okresov a politickými preferenciami obyvateľov. Uvedené hodnoty predstavujú priemerné podiely hlasov a priemernú volebnú účasť v rámci jednotlivých zhlukov. 
 
+![Priemerné podiely hlasov podľa zhluku](images/votes_selected_parties_by_cluster.png)
+
 **Mestský zhluk** (Bratislava a Košice) mal najvyššiu volebnú účasť (70,1 %) a zároveň výrazne nižšiu podporu strán **SMER - sociálna demokracia (12,3 %)** a **Kotlebovci - Ľudová strana Naše Slovensko (4,5 %)**. Naopak, v tomto zhluku bola výrazne vyššia podpora strán ako **ZA ĽUDÍ (10,2 %)**. Tieto okresy sa vyznačovali vysokým podielom vysokoškolsky vzdelaných obyvateľov, vyššími príjmami a vysokou mierou urbanizácie. 
 
 Tieto zistenia naznačujú, že vyššia úroveň vzdelania, vyšší príjem a mestské prostredie môžu súvisieť s nižšou podporou krajne pravicových politických strán a s vyššou podporou liberálnejších subjektov.
