@@ -469,7 +469,7 @@ Ekonomické ukazovatele majú skôr doplnkový význam.
 
 ------------
 
-## Part 4 — Clustering slovenských okresov podľa socio-ekonomických alebo demografických charakteristík
+## Part 4 — Clustering slovenských okresov podľa socio-ekonomických alebo demografických charakteristík (K-means)
 
 ### Cieľ analýzy
 
@@ -504,10 +504,13 @@ _Tieto dáta neboli použité pri zhlukovaní, slúžili len na interpretáciu v
 
 ### Metodika
 
-Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií: silhouette score (kmeans_silhouette.png) a elbow metódy (kmeans_elbow-png), ktorá je založená na hodnote inertia (SSE v rámci zhlukov). PO výbere k sme zhluky vizualizovali pomocou PCA do 2D priestoru (pca_cluster.png).
+Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií: silhouette score (images/kmeans_silhouette.png) a elbow metódy (images/kmeans_elbow-png), ktorá je založená na hodnote inertia (SSE v rámci zhlukov). Po výbere k sme zhluky vizualizovali pomocou PCA do 2D priestoru (images/pca_cluster.png).
 
 Ako jednoduchý “proxy” ukazovateľ dôležitosti znakov pre zhlukovanie sme spravili sekundárnu analýzu:
-- 
+
+- spočítali sme priemery znakov po zhlukoch v z-skóre jednotkách,
+- pre každý znak sme spočítali rozdiel max(μ) - min(μ) medzi zhlukmi,
+- top rozdiely sme vypísali ako "Top znaky podľa rozdielu medzi zhlukmi"
 
 Keďže vieme, že K-means nemá prirodzenú mieru významnosti premenných, použili sme podiel medzizhlukovej variability na celkovej variabilite (SSB/SST) ako proxy ukazovateľ.
 
@@ -550,7 +553,3 @@ Tieto zistenia naznačujú, že vyššia úroveň vzdelania, vyšší príjem a 
 V **zhluku s vyššou mierou nezamestnanosti a nižšímmi mzdami** sme pozorovali najnižšiu volebnú účasť (59,5 %) a zároveň najvyššiu podporu strán **SMER - sociálna demokracia (21,8 %)**, **Kresťanskodemokratické hnutie (6,9 %)** a **Kotlebovci - Ľudová strana Naše Slovensko (9,9 %)**. Okresy sa vyznačovali aj nižšou úrovňou vzdelania a vyššou mierou socio-ekonomickej neistoty, čo sa odráža aj v štruktúre politických preferencií obyvateľstva. Výsledky naznačujú, že socio-ekonomická neistota a nižšia úroveň vzdelania môžu súvisieť s vyššou podporou sociálne orientovaných a protestných politických strán.
 
 V **najväčšom zhluku okresov** sú politické preferencie vyváženejšie a podiely hlasov jednotlivých strán sú bližšie k celoslovenskému priemeru. Tento zhluk reprezentuje okresy so zmiešanými socio-ekonomickými charakteristikami, čo sa prejavuje aj v menej vyhranených volebných preferenciách.
-
----
-
-### Porovnanie výsledkov s modelmi spolužiakov
