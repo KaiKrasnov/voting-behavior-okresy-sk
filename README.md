@@ -487,10 +487,10 @@ Venovali sme sa výskumným otázkam:
 
 **Premenné použité na zhlukovanie**
 - demografia: podiel obyvateľov vo veku 0-14 rokov; podiel obyvateľov vo veku 65+ rokov; podiel žien;
-- trh práce: miera evidovanej nezamestnanosti; kvadratický člen miery nezamestnanosti; podiel zamestnancov; podiel pracujúcich dôchodcov;
+- trh práce: miera evidovanej nezamestnanosti; kvadratický člen miery nezamestnanosti; podiel zamestnancov; 
 - urbanizáicia a veľkosť okresu: podiel mestského obyvateľstva; logaritmus počtu obyvateľov okresu
 - vzdelanie: podiel vysokoškolsky vzdelaných osôb; podiel osôb bez základného vzdelania;
-- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov; 
+- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov; podiel pracujúcich dôchodcov;
 
 _Premenné boli pred zhlukovanm štandardizované pomocou z-skóre, aby mali porovnateľnú mierku._
 
@@ -504,41 +504,50 @@ _Tieto dáta neboli použité pri zhlukovaní, slúžili len na interpretáciu v
 
 ### Metodika
 
-Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií: silhouette score ![Popis](images/kmeans_silhouette.png) a elbow metódy (images/kmeans_elbow-png), ktorá je založená na hodnote inertia (SSE v rámci zhlukov). Po výbere k sme zhluky vizualizovali pomocou PCA do 2D priestoru (images/pca_cluster.png).
+Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií:
 
-Ako jednoduchý “proxy” ukazovateľ dôležitosti znakov pre zhlukovanie sme spravili sekundárnu analýzu:
+- Silhouette score - meria, ako dobre sú zhluky oddelené (vyššie = lepšie)
+![K - means silhouette](images/kmeans_silhouette.png)
 
-- spočítali sme priemery znakov po zhlukoch v z-skóre jednotkách,
-- pre každý znak sme spočítali rozdiel max(μ) - min(μ) medzi zhlukmi,
-- top rozdiely sme vypísali ako "Top znaky podľa rozdielu medzi zhlukmi"
+- Elbow metóda - na základe hodnote inertia (SSE v rámci zhlukov) sledujeme, kde sa znižovanie chyby začne "spomaľovať"
+![K - means elbow](images/kmeans_elbow-png)
 
-Keďže vieme, že K-means nemá prirodzenú mieru významnosti premenných, použili sme podiel medzizhlukovej variability na celkovej variabilite (SSB/SST) ako proxy ukazovateľ.
+Obe kritériá vybrali k = 3 (maximum silhouette pri k = 3).
+
+Na vizualizáciu v 2D sme použili PCA (2 komponenty) na štandardizované dáta.
+![PCA zhluky](images/pca_cluster.png)
+
+Keďže vieme, že K-means nemá prirodzenú "dôležitosť premenných", použili sme rozdiel medzi zhlukmi počítaný ako max(μ) - min(μ) cez clustre na z-skóre ako jednoduchý proxy ukazovateľ. Čím je vyššie, tým viac sa premenná líši medzi zhlukmi.
 
 ---
 
 ### Výsledky
-Algoritmus K-means identifikoval tri zhluky okresov Slovenskej republiky, ktoré obsahovali rôzny počet okresov:
+Algoritmus K-means identifikoval 3 zhluky okresov Slovenskej republiky, ktoré obsahovali rôzny počet okresov:
 0. zhluk: 48 okresov
 1. zhluk: 8 okresov
 2. zhluk: 23 okresov
 
+Pri týchto veľkostiach vidíme, že jeden zhluk tvorí nejaká špecifická menšia skupina okresov, kým zvyšné dva tvoria väčšiu časť Slovenska.
+
 Najmenší zhluk tvorili mestské okresy Bratislavy a Košíc, ktoré sa výrazne odlišujú od zvyšku Slovenska najmä vyššou mierou urbanizácie, vyššími príjmami a vyšším podielom vysokoškolsky vzdelaných obyvateľov. 
 
-Zhluk 0. obsahuje väčšinu slovenských okresov a možno ich nazvať "priemernými" okresmi. Zhluk 2. zahŕňa okresy s vyššou mierou nezamestnanosti, nižšími mzdami a nižším podielom vysokoškolského vzdelania.
+Zhluk 0 obsahuje väčšinu slovenských okresov a možno ich nazvať ako "priemerné" okresy. Zhluk 2 zahŕňa okresy s vyššou mierou nezamestnanosti, nižšími mzdami a nižším podielom vysokoškolského vzdelania.
 
-Kvalita zhlukovania bola vyhodnotená pomocou silhouette score, ktoré nadobudlo hodnotu 0,338, čo hovorí o stredne silnej separácii zhlukov. Algoritmus dosiahol konvergenciu už po 4 iteráciách, čo naznačuje stabilitu riešenia. Finálna hodnota inertia (SSE) = 513,0 potvrdzuje, že zvolený počet zhlukov predstavuje kompromis medzi jednoduchosťou a presnosťou.
+Kvalita zhlukovania bola urobená pomocou silhouette score, ktoré nadobudlo hodnotu 0,338, čo hovorí o stredne silnej separácii zhlukov. Algoritmus dosiahol konvergenciu už po 4 iteráciách, čo hovorí o stabilite. Finálna hodnota inertia (SSE) = 513,02 nám hovorí, že zvolený počet zhlukov je kompromis medzi jednoduchosťou a mierou variability vo vnútri v zhluku.
 
-Na vizualizáciu výsledkov bola použitá PCA analýza, pričom prvé dva hlavné komponenty vysvetľujú 64,48 % celkovej variability dát, čo umožňuje zhluky prehľadne interpretovať v 2D priestore. Pôvodné dáta mali totiž viac dimenzií.
-
+Na vizualizáciu výsledkov bola použitá analýza hlavných komponentov (PCA).
 Ako najdôležitejšie premenné pre tvorbu zhlukov sa ukázali:
 
 - podiel vysokoškolsky vzdelaných obyvateľov,
-- miera nezamestnanosti,
 - urbanizácia,
 - priemerná mzda,
+- podiel žien,
 - podiel osôb bez základného vzdelania.
+- podiel cudzincov,
+- podiel pracujúcich dôchodcov,
+- miera nezamestnanosti.
 
-Tieto premenné mali najvyšší podiel variability vysvetlenej rozdielmi medzi zhlukmi (SSB/SST).
+Tieto premenné vykazovali najväčší rozdiel medzi zhlukmi na štandardizovaných dátach, a preto významne prispievajú k ich odlíšeniu.
 
 ---
 
