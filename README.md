@@ -507,10 +507,10 @@ _Tieto dáta neboli použité pri zhlukovaní, slúžili len na interpretáciu v
 Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií:
 
 - Silhouette score - meria, ako dobre sú zhluky oddelené (vyššie = lepšie)
-![K - means silhouette](images/kmeans_silhouette.png)
+![K-means silhouette](images/kmeans_silhouette.png)
 
 - Elbow metóda - na základe hodnote inertia (SSE v rámci zhlukov) sledujeme, kde sa znižovanie chyby začne "spomaľovať"
-![K - means elbow](images/kmeans_elbow-png)
+![K-means elbow](images/kmeans_elbow-png)
 
 Obe kritériá vybrali k = 3 (maximum silhouette pri k = 3).
 
@@ -529,9 +529,9 @@ Algoritmus K-means identifikoval 3 zhluky okresov Slovenskej republiky, ktoré o
 
 Pri týchto veľkostiach vidíme, že jeden zhluk tvorí nejaká špecifická menšia skupina okresov, kým zvyšné dva tvoria väčšiu časť Slovenska.
 
-Najmenší zhluk tvorili mestské okresy Bratislavy a Košíc, ktoré sa výrazne odlišujú od zvyšku Slovenska najmä vyššou mierou urbanizácie, vyššími príjmami a vyšším podielom vysokoškolsky vzdelaných obyvateľov. 
+Najmenší zhluk (8 okresov) tvorili mestské okresy Bratislavy a Košíc, ktoré sa výrazne odlišujú od zvyšku Slovenska najmä vyššou mierou urbanizácie, vyššími príjmami a vyšším podielom vysokoškolsky vzdelaných obyvateľov. 
 
-Zhluk 0 obsahuje väčšinu slovenských okresov a možno ich nazvať ako "priemerné" okresy. Zhluk 2 zahŕňa okresy s vyššou mierou nezamestnanosti, nižšími mzdami a nižším podielom vysokoškolského vzdelania.
+Zhluk 0 obsahuje väčšinu (48 okresov) a možno ich nazvať ako "priemerné" okresy. Zhluk 2 (28 okresov) zahŕňa okresy s vyššou mierou nezamestnanosti, nižšími mzdami a nižším podielom vysokoškolského vzdelania.
 
 Kvalita zhlukovania bola urobená pomocou silhouette score, ktoré nadobudlo hodnotu 0,338, čo hovorí o stredne silnej separácii zhlukov. Algoritmus dosiahol konvergenciu už po 4 iteráciách, čo hovorí o stabilite. Finálna hodnota inertia (SSE) = 513,02 nám hovorí, že zvolený počet zhlukov je kompromis medzi jednoduchosťou a mierou variability vo vnútri v zhluku.
 
@@ -547,13 +547,13 @@ Ako najdôležitejšie premenné pre tvorbu zhlukov sa ukázali:
 - podiel pracujúcich dôchodcov,
 - miera nezamestnanosti.
 
-Tieto premenné vykazovali najväčší rozdiel medzi zhlukmi na štandardizovaných dátach, a preto významne prispievajú k ich odlíšeniu.
+Tieto premenné vykazovali najväčší rozdiel medzi zhlukmi na štandardizovaných dátach, a preto významne prispievajú k ich odlíšeniu. Naznačujú, že práve vzdelanie, urbanizácia a ekonomická úroveň okresov sú kľúčové pri rozdelení okresov do zhlukov.
 
 ---
 
 ### Interpretácia zhlukov pomocou volebných dát
 
-Ku každému okresu sme dodatočne priradili reálne výsledky parlamentných volieb a údaje o volebnej účasti, aby sme mohli vytvorené zhluky interpretovať aj z politického hľadiska. Jednotlivé zhluky sa líšia nielen svojimi socio-ekonomickými charakteristikami, ale aj volebným správaním, čo naznačuje súvislosť medzi socio-ekonomickou štruktúrou okresov a politickými preferenciami obyvateľov.  
+Ku každému okresu sme dodatočne priradili reálne výsledky parlamentných volieb a údaje o volebnej účasti, aby sme mohli vytvorené zhluky interpretovať aj z politického hľadiska. Jednotlivé zhluky sa líšia nielen svojimi socio-ekonomickými charakteristikami, ale aj volebným správaním, čo naznačuje súvislosť medzi socio-ekonomickou štruktúrou okresov a politickými preferenciami obyvateľov. Uvedené hodnoty predstavujú priemerné podiely hlasov a priemernú volebnú účasť v rámci jednotlivých zhlukov. 
 
 **Mestský zhluk** (Bratislava a Košice) mal najvyššiu volebnú účasť (70,1 %) a zároveň výrazne nižšiu podporu strán **SMER - sociálna demokracia (12,3 %)** a **Kotlebovci - Ľudová strana Naše Slovensko (4,5 %)**. Naopak, v tomto zhluku bola výrazne vyššia podpora strán ako **ZA ĽUDÍ (10,2 %)**. Tieto okresy sa vyznačovali vysokým podielom vysokoškolsky vzdelaných obyvateľov, vyššími príjmami a vysokou mierou urbanizácie. 
 
