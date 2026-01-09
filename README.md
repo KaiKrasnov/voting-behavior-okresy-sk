@@ -473,43 +473,41 @@ Ekonomické ukazovatele majú skôr doplnkový význam.
 
 ### Cieľ analýzy
 
-V tejto časti sme chceli preskúmať, či je možné rozdeliť okresy Slovenska do zmyslupných skupín, zhlukov,iba na základe ich demografických alebo socio-ekonomických charakteristík a následne tieto zhluky interpretovať pomocou dát z parlamentých volieb. 
+V tejto časti sme zisťovali, či sa okresy Slovenska dajú rozdeliť do zmyslupných skupín, zhlukov, iba na základe ich demografických alebo socio-ekonomických charakteristík. Potom sme tieto zhluky interpretovali pomocou dát z volieb, aby sme videli, či sa rozdiely vo vlastnostiach okresoch prenášajú aj do výsledkov volieb. 
 
 Venovali sme sa výskumným otázkam:
 - Existujú prirodzené zhluky okresov Slovenska na základe demografických a socio-ekonomických ukazovateľov?
 - Aký je vhodný počet zhlukov pre metódu K-means pri týchto dátach?
-- Ktoré charakteristiky okresov najviac prispievajú ku vzniku jednotlivých zhlukov?
-- Ako sa vytvorené zhluky líšia z hľadiska volebnej účasti a volebných preferencií politických strán?
+- Ktoré premenné najviac odlišujú zhluky?
+- Ako sa vytvorené zhluky líšia z hľadiska volebnej účasti a volebných preferencií?
 
-Následne sme tieto zistenia porovnali s výsledkami modelov, ktoré vytvorili ostatní členovia z tímu.
-
----
+-----------
 
 ### Premenné 
 
 **Premenné použité na zhlukovanie**
 - demografia: podiel obyvateľov vo veku 0-14 rokov; podiel obyvateľov vo veku 65+ rokov; podiel žien;
-- trh práce: miera evidovanej nezamestnanosti; kvadratický člen miery nezamestnanosti;
+- trh práce: miera evidovanej nezamestnanosti; kvadratický člen miery nezamestnanosti; podiel zamestnancov; podiel pracujúcich dôchodcov;
 - urbanizáicia a veľkosť okresu: podiel mestského obyvateľstva; logaritmus počtu obyvateľov okresu
 - vzdelanie: podiel vysokoškolsky vzdelaných osôb; podiel osôb bez základného vzdelania;
-- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov; podiel pracujúcich dôchodcov; 
+- ekonomika a sociálna štruktúra: priemerná mzda; podiel cudzincov; 
 
-_Premenné boli pred zhlukovanm štandardizované (z-skóre)._
+_Premenné boli pred zhlukovanm štandardizované pomocou z-skóre, aby mali porovnateľnú mierku._
 
 **Premenné použité iba na interpretáciu zhlukov**
-- volebná účasť
-- podiely hlasov pre politické strany
+- volebná účasť (turnout),
+- podiely hlasov pre politické strany (podiel_hlasov_*).
 
 _Tieto dáta neboli použité pri zhlukovaní, slúžili len na interpretáciu výsledných skupín._
 
----
+----
 
 ### Metodika
 
-Na zhlukovanie sme použili algoritmus **K-means**. Počet zhlukov bol vyberaný testovaním hodnôt k = 2 až 8, pričom sme použili silhouette score a elbow metódu založenú na hodnote inertia (SSE) a tieto obe kritériá identifikovali k = 3 ako najvhodnejší počet zhlukov.
+Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dátami. Počet zhlukov sme vyberali skúšaním hodnôt k ∈ {2,...,8} a porovnaním dvoch kritérií: silhouette score (kmeans_silhouette.png) a elbow metódy (kmeans_elbow-png), ktorá je založená na hodnote inertia (SSE v rámci zhlukov). PO výbere k sme zhluky vizualizovali pomocou PCA do 2D priestoru (pca_cluster.png).
 
-Na vizualizáciu výsledkov sme použili analýzu halvných kompotentov PCA, ktorú sme aplikovali na štandarzitované dáta. Prvé dva komponenty PC1 a PC2 určujú 64,48 % 
-rozptylu.
+Ako jednoduchý “proxy” ukazovateľ dôležitosti znakov pre zhlukovanie sme spravili sekundárnu analýzu:
+- 
 
 Keďže vieme, že K-means nemá prirodzenú mieru významnosti premenných, použili sme podiel medzizhlukovej variability na celkovej variabilite (SSB/SST) ako proxy ukazovateľ.
 
