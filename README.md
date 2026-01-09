@@ -510,7 +510,7 @@ Na zhlukovanie sme použili algoritmus **K-means** nad štandardizovanými dáta
 ![K-means silhouette](images/kmeans_silhouette.png)
 
 - Elbow metóda - na základe hodnote inertia (SSE v rámci zhlukov) sledujeme, kde sa znižovanie chyby začne "spomaľovať"
-![K-means elbow](images/kmeans_elbow-png)
+![K-means elbow](images/kmeans_elbow.png)
 
 Obe kritériá vybrali k = 3 (maximum silhouette pri k = 3).
 
@@ -538,14 +538,18 @@ Kvalita zhlukovania bola urobená pomocou silhouette score, ktoré nadobudlo hod
 Na vizualizáciu výsledkov bola použitá analýza hlavných komponentov (PCA).
 Ako najdôležitejšie premenné pre tvorbu zhlukov sa ukázali:
 
-- podiel vysokoškolsky vzdelaných obyvateľov,
-- urbanizácia,
-- priemerná mzda,
-- podiel žien,
-- podiel osôb bez základného vzdelania.
-- podiel cudzincov,
-- podiel pracujúcich dôchodcov,
-- miera nezamestnanosti.
+| Premenná           | Rozdiel (max − min) |
+| ------------------ | ------------------: |
+| edu_uni            |               3.019 |
+| urban              |               2.911 |
+| avg_wage           |               2.911 |
+| female_share       |               2.667 |
+| edu_none           |               2.347 |
+| foreigners         |               2.223 |
+| working_pensioners |               1.947 |
+| unemployment       |               1.937 |
+| unemployment_sq    |               1.788 |
+| age_65_plus        |               1.746 |
 
 Tieto premenné vykazovali najväčší rozdiel medzi zhlukmi na štandardizovaných dátach, a preto významne prispievajú k ich odlíšeniu. Naznačujú, že práve vzdelanie, urbanizácia a ekonomická úroveň okresov sú kľúčové pri rozdelení okresov do zhlukov.
 
